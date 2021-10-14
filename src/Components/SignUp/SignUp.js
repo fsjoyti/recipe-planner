@@ -1,9 +1,13 @@
 import "./SignUp.css"
 import React, {useRef, useState} from "react";
-import {Form, Button, Alert} from "react-bootstrap";
+import {Form, Button, Alert, Row, Col} from "react-bootstrap";
 import {useAuth} from "../../Contexts/AuthContext";
-import { Link, useHistory } from "react-router-dom"
-import { ArrowRight } from 'react-bootstrap-icons';
+import {Link, useHistory} from "react-router-dom"
+import {ArrowRight} from 'react-bootstrap-icons';
+import StyledLink from "../StyledLink/StyledLink";
+import food from "../../Assets/Images/food.svg"
+import groceryBag from "../../Assets/Images/groceries-bag.svg"
+import noteBook from "../../Assets/Images/notebook.svg"
 
 const SignUp = () => {
 
@@ -22,7 +26,7 @@ const SignUp = () => {
             return setError("Passwords do not match")
         }
 
-        if(passwordRef.current.value.length < 8){
+        if (passwordRef.current.value.length < 8) {
             return setError("Password must be atleast 8 characters")
         }
 
@@ -38,31 +42,64 @@ const SignUp = () => {
     }
 
     return (
-        <div className="w-100 signup-div">
-            <h1 className="text-center mb-4"> Sign up</h1>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail" id="email">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Email" className="form-input" ref={emailRef} required/>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword" id="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="●●●●●●●●●●●●" ref={passwordRef} required/>
-                </Form.Group>
-                <Form.Group id="password-confirm">
-                    <Form.Label>Password Confirmation</Form.Label>
-                    <Form.Control type="password" placeholder="●●●●●●●●●●●●" ref={passwordConfirmRef} required />
-                </Form.Group>
-                <Button id="signup" disabled={loading} className="w-100" variant="primary" type="submit" onClick={(e)=>submitHandler(e)}>
-                    Sign Up
-                </Button><br/>
-                <Form.Text className="text-muted">
-                    By continuing, you agree to The Terms of Service and Privacy Statement.
-                </Form.Text>
-            </Form>
-            <div className="w-100 text-center mt-2">
-                Have an account? <Link to="/login">Log In<ArrowRight className="ml-4"></ArrowRight></Link>
+        <div id="signup-main-container">
+            <div className="content">
+                <div className="leftText">
+                    <img src={food} alt="food-covered"/>
+                    <p>Plan your dinner, by searching from hundreds of recipes in our app</p>
+                </div>
+                <div className="leftText">
+                    <img src={groceryBag} alt="grocery bag with food"/>
+                    <p>Plan for your next grocery shopping for the recipes in the app</p>
+                </div>
+                <div className="leftText">
+                    <img src={noteBook} alt="notebook"/>
+                    <p>Save your favorite recipe that you found in one place in our app</p>
+                </div>
+            </div>
+            <div className="signup-div">
+                <h1 className="mb-4" id="header-text"> Sign up</h1>
+                {error && <Alert variant="danger">{error}</Alert>}
+                <Form>
+                    <Form.Group as={Row} className="mb-3" controlId="formBasicEmail" id="email">
+                        <Col sm="12">
+                            <Form.Label>Email address</Form.Label>
+                            <Form.Control type="email" placeholder="Email" className="form-input" ref={emailRef}
+                                          required/>
+                        </Col>
+
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3" controlId="formBasicPassword" id="password">
+                        <Col sm="12">
+                            <Form.Label> Enter Password</Form.Label>
+                            <Form.Control type="password" placeholder="●●●●●●●●●●●●" className="form-input"
+                                          ref={passwordRef} required/>
+                        </Col>
+
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="formPassword Confirm" className="mb-3" id="password-confirm">
+                        <Col sm="12">
+                            <Form.Label>Confirm Password</Form.Label>
+                            <Form.Control type="password" placeholder="●●●●●●●●●●●●" className="form-input"
+                                          ref={passwordConfirmRef} required/>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                        <Col sm="12">
+                            <Button id="signup" disabled={loading} variant="primary" type="submit"
+                                    onClick={(e) => submitHandler(e)}>
+                                Sign Up
+                            </Button><br/>
+                        </Col>
+                    </Form.Group>
+                    <Form.Text className="text-muted">
+                        By continuing, you agree to The Terms of Service and Privacy Statement.
+                    </Form.Text>
+                </Form>
+                <div className="text-center" id="signed-up">
+                    <p id="have-account">Have an account? </p><StyledLink to="/login">Log In<ArrowRight
+    className="ml-4"/></StyledLink>
+                </div>
             </div>
         </div>
     )
