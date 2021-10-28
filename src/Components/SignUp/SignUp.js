@@ -2,7 +2,7 @@ import "./SignUp.css"
 import React, {useRef, useState} from "react";
 import {Form, Button, Alert, Row, Col} from "react-bootstrap";
 import {useAuth} from "../../Contexts/AuthContext";
-import {Link, useHistory} from "react-router-dom"
+import {useHistory} from "react-router-dom"
 import {ArrowRight} from 'react-bootstrap-icons';
 import StyledLink from "../StyledLink/StyledLink";
 import food from "../../Assets/Images/food.svg"

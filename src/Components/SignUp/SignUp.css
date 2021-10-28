@@ -1,3 +1,4 @@
+
 #signup-main-container{
     display: flex;
     flex-wrap: nowrap;
@@ -42,7 +43,7 @@
 signup-div p,
 .signup-div h1
 {
-    width: 20vw;
+    width: 35vw;
     height: 5vh;
 }
 
@@ -157,11 +158,7 @@ and (orientation: landscape) {
         margin-top: 3em;
         font-size: 1.0em;
     }
-    .content{
-        width: 50vw;
 
-
-    }
 }
 
 @media screen and (device-width: 1024px) {
