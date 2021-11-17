@@ -12,7 +12,7 @@
 }
 
 .login-div{
-    background:url("../../Assets/Images/trial.svg"),linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+    background:url("../../assets/images/trial.svg"),linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
     background-size: contain;
 }
 .login-div input {

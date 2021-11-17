@@ -1,4 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
+
+import firebase from "../firebase";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
 
 const AuthContext = React.createContext(null)
@@ -27,7 +29,11 @@ export function AuthProvider({children}) {
 
     useEffect(() => {
         const subscribe = onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user)
+            if(user){
+                setCurrentUser(user)
+            } else{
+                setCurrentUser(null)
+            }
         })
         return subscribe
     }, [auth])

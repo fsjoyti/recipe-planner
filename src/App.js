@@ -1,14 +1,13 @@
-import firebase from "./firebase";
 import {Container} from "react-bootstrap";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
+import {AuthProvider} from "./Contexts/AuthContext";
 import Signup from "./Components/SignUp/SignUp"
 import Login from './Components/Login/Login'
-
 import Home from "./Components/Home/Home";
-import {AuthProvider} from "./Contexts/AuthContext";
+import RecipeDetail from "./Components/Recipe/RecipeDetail";
 function App() {
   return (
-      <Container className="d-flex align-items-center justify-content-center Container-Height flex-fill" >
+      <Container fluid className="Container-Height" >
           <Router>
               <AuthProvider>
                   <Switch>
@@ -20,6 +19,9 @@ function App() {
                       </Route>
                       <Route path="/login">
                           <Login/>
+                      </Route>
+                      <Route path = "/recipe/:id">
+                          <RecipeDetail/>
                       </Route>
                   </Switch>
               </AuthProvider>

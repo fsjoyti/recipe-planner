@@ -1,0 +1,15 @@
+.search{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1em;
+}
+
+div.search > form{
+    margin-bottom: 2em;
+    width: 100%;
+}
+
+

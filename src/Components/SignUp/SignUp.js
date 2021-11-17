@@ -5,9 +5,10 @@ import {useAuth} from "../../Contexts/AuthContext";
 import {useHistory} from "react-router-dom"
 import {ArrowRight} from 'react-bootstrap-icons';
 import StyledLink from "../StyledLink/StyledLink";
-import food from "../../Assets/Images/food.svg"
-import groceryBag from "../../Assets/Images/groceries-bag.svg"
-import noteBook from "../../Assets/Images/notebook.svg"
+import food from "../../assets/images/food.svg"
+import groceryBag from "../../assets/images/groceries-bag.svg"
+import noteBook from "../../assets/images/notebook.svg"
+import {firestore} from "../../firebase";
 
 const SignUp = () => {
 
@@ -33,27 +34,38 @@ const SignUp = () => {
         try {
             setError("")
             setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value)
+            const res = await signup(emailRef.current.value, passwordRef.current.value)
+            const user = res.user;
+            console.log(user)
+
+            // await firestore.collection("users").doc(user.uid).set({
+            //     email: user.email,
+            //     uid: user.uid
+            // });
+
             history.push("/")
-        } catch {
+
+        } catch (error) {
+            console.error(error)
+
             setError("Failed to create an account")
+            setLoading(false)
         }
-        setLoading(false)
     }
 
     return (
         <div id="signup-main-container">
             <div className="content">
                 <div className="leftText">
-                    <img src={food} alt="food-covered"/>
+                    <img src={food} alt="food-covered" className="signup-img"/>
                     <p>Plan your dinner, by searching from hundreds of recipes in our app</p>
                 </div>
                 <div className="leftText">
-                    <img src={groceryBag} alt="grocery bag with food"/>
+                    <img src={groceryBag} alt="grocery bag with food" className="signup-img"/>
                     <p>Plan for your next grocery shopping for the recipes in the app</p>
                 </div>
                 <div className="leftText">
-                    <img src={noteBook} alt="notebook"/>
+                    <img src={noteBook} alt="notebook" className="signup-img"/>
                     <p>Save your favorite recipe that you found in one place in our app</p>
                 </div>
             </div>
@@ -98,7 +110,7 @@ const SignUp = () => {
                 </Form>
                 <div className="text-center" id="signed-up">
                     <p id="have-account">Have an account? </p><StyledLink to="/login">Log In<ArrowRight
-    className="ml-4"/></StyledLink>
+                    className="ml-4"/></StyledLink>
                 </div>
             </div>
         </div>

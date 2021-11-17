@@ -1,0 +1,11 @@
+.home{
+    background-color: #7B5E99;
+    background-image: linear-gradient(to right top, #7b5e99, #7773ac, #7587ba, #799bc5, #83adcd);
+    background-size: cover;
+}
+
+.mealtime{
+    display: flex;
+    max-width: 100%;
+    justify-content: space-around;
+}

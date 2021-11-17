@@ -1,0 +1,70 @@
+.card-image{
+    width: 100vw;
+    height: 30vh;
+    object-fit: cover;
+}
+
+.card{
+    margin-bottom: 2em;
+}
+
+.card:hover{
+    border: 5px solid #0091ea;
+}
+img+div{
+    margin-bottom: 1em;
+}
+
+a:link{
+    color: deeppink;
+}
+
+.recipe-detail{
+    background:linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+    background-size: contain;
+}
+.recipe-summary{
+   margin-top: 2em;
+   margin-bottom: 1em;
+}
+
+.recipe-instructions{
+ margin-bottom: 1.5em;
+}
+
+.wine-pairing p{
+    font-size: 1.0em;
+}
+
+p+h6{
+    font-size: 1.2rem;
+}
+
+@media(max-width: 320px){
+    h1{
+        font-size: 1.0em;
+    }
+}
+
+@media only screen and (min-width: 767px) {
+    .card-image{
+        width: 30vw;
+        object-fit: cover;
+    }
+
+    .img-detail{
+       width: 100%;
+       height: 31.25em;
+    }
+    p{
+        font-size: 1.4rem;
+    }
+
+    ol{
+        margin-bottom: 2em;
+    }
+
+    ol li{
+        font-size: 1.3rem;
+    }
+}

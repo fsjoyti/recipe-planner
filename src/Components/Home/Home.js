@@ -1,54 +1,64 @@
 import "./Home.css"
-import {Button, Alert} from "react-bootstrap";
-import {useAuth} from "../../Contexts/AuthContext";
-import { Link, useHistory } from "react-router-dom"
+import breakfast from '../../assets/images/breakfast.png'
+import lunch from '../../assets/images/lunch.png'
+import dinner from '../../assets/images/dinner.png'
 import axios from 'axios'
 import React, {useState, useEffect} from "react";
+import LoggedInNav from "../LoggedInNav/LoggedInNav";
+import Mealtime from "../Mealtime/Mealtime";
+import Search from "../Search/Search";
+import RecipeList from "../Recipe/RecipeList";
+import {useMountedState} from 'react-use';
 const Home = () => {
-
-    console.log(process.env.REACT_APP_SPOONACULAR_API_KEY)
-
-    const [error, setError] = useState("")
-    const { currentUser, logout } = useAuth()
-    const history = useHistory()
-
-    useEffect( ()=>{
-
-        const getRecipes = async ()=>{
-            const response =  await axios.get("https://api.spoonacular.com/recipes/random",{params: {number:1, tags:"vegetarian",apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY}})
-            return response.data
+    const [recipes, setRecipes] = useState([]);
+    const [query, setQuery] = useState("American");
+    const isMounted = useMountedState();
+    useEffect(() => {
+        const getRecipes = async () => {
+            const response = await axios.get("https://api.spoonacular.com/recipes/complexSearch", {
+                params: {
+                    number: 6,
+                    query: query,
+                    addRecipeInformation: true,
+                    apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY
+                }
+            })
+            const {data} = await response;
+            const {results} = data;
+            return results;
         }
-        
+
         getRecipes().then(response => {
-            console.log(response)
+                if (isMounted) {
+                    setRecipes(response)
+                }
             }
         ).catch(error => {
             console.log(error)
-        })
-     
-    }, []);
+        });
 
-    
-    const handleLogOut = async (event) => {
+    }, [query, isMounted]);
 
-        setError("")
-
-        try {
-            await logout()
-            history.push("/login")
-        } catch {
-            setError("Failed to log out")
-        }
+    const search = searchValue => {
+        setQuery(searchValue);
     }
 
+    const mealTime = [
+        {id: 1, icon: breakfast, alt: 'breakfast plate', title: 'breakfast'},
+        {id: 2, icon: lunch, alt: 'burger', title: 'lunch'},
+        {id: 3, icon: dinner, alt: 'turkey', title: 'dinner'},
+    ]
+
     return (
-        <div>
-            <h2 className="text-center mb-4">Profile</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <strong>Email:</strong> {currentUser && currentUser.email}
-            <Button variant="link" onClick={(e)=>handleLogOut(e)}>
-                Log Out
-            </Button>
+        <div className="home">
+            <LoggedInNav/>
+            <div className="mealtime">
+                {mealTime.map(data =>
+                    <Mealtime key={data.id} img={data.icon} alt={data.alt} title={data.title}/>
+                )}
+            </div>
+            <Search search={search}/>
+            <RecipeList recipes={recipes}/>
         </div>
     )
 }
