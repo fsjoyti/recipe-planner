@@ -2,19 +2,26 @@ import "./Home.css"
 import breakfast from '../../assets/images/breakfast.png'
 import lunch from '../../assets/images/lunch.png'
 import dinner from '../../assets/images/dinner.png'
-import axios from 'axios'
-import React, {useState, useEffect} from "react";
-import LoggedInNav from "../LoggedInNav/LoggedInNav";
+import axios from 'axios';
+import React, {useState, useEffect, useCallback} from "react";
 import Mealtime from "../Mealtime/Mealtime";
 import Search from "../Search/Search";
-import RecipeList from "../Recipe/RecipeList";
+import RecipeLists from "../Recipe/RecipeLists";
 import {useMountedState} from 'react-use';
+import {useAuth} from "../../Contexts/AuthContext";
+import {Alert, Spinner} from "react-bootstrap";
+
 const Home = () => {
+    const [loading, setLoading] = useState(false);
+    const {currentUser} = useAuth()
     const [recipes, setRecipes] = useState([]);
     const [query, setQuery] = useState("American");
     const isMounted = useMountedState();
-    useEffect(() => {
-        const getRecipes = async () => {
+    const [error, setError] = useState('');
+
+    const getRecipes = useCallback(async () => {
+        setLoading(true);
+        try {
             const response = await axios.get("https://api.spoonacular.com/recipes/complexSearch", {
                 params: {
                     number: 6,
@@ -25,22 +32,29 @@ const Home = () => {
             })
             const {data} = await response;
             const {results} = data;
-            return results;
-        }
-
-        getRecipes().then(response => {
-                if (isMounted) {
-                    setRecipes(response)
-                }
+            if (isMounted()) {
+                setRecipes(results);
             }
-        ).catch(error => {
-            console.log(error)
-        });
+        } catch (error) {
+            if (isMounted()) {
+                setError(error);
+            }
+        }finally {
+            if (isMounted()) {
+                setLoading(false);
+            }
+        }
 
     }, [query, isMounted]);
 
+    useEffect(() => {
+        getRecipes();
+    }, [getRecipes]);
+
     const search = searchValue => {
-        setQuery(searchValue);
+        if (isMounted()) {
+            setQuery(searchValue);
+        }
     }
 
     const mealTime = [
@@ -49,16 +63,17 @@ const Home = () => {
         {id: 3, icon: dinner, alt: 'turkey', title: 'dinner'},
     ]
 
-    return (
+    return loading ? (<Spinner animation="border" role="status"/>):(
         <div className="home">
-            <LoggedInNav/>
+            {error && <Alert variant="danger">{error}</Alert>}
+            <strong>Email:</strong> {currentUser.email}
             <div className="mealtime">
                 {mealTime.map(data =>
                     <Mealtime key={data.id} img={data.icon} alt={data.alt} title={data.title}/>
                 )}
             </div>
             <Search search={search}/>
-            <RecipeList recipes={recipes}/>
+            <RecipeLists recipes={recipes}/>
         </div>
     )
 }

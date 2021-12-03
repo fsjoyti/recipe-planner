@@ -13,3 +13,6 @@ div.search > form{
 }
 
 
+#search{
+    height: 3.125em !important;
+}

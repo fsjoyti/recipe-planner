@@ -1,56 +1,76 @@
 import "./SignUp.css"
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import {Form, Button, Alert, Row, Col} from "react-bootstrap";
 import {useAuth} from "../../Contexts/AuthContext";
-import {useHistory} from "react-router-dom"
+import {useHistory} from "react-router-dom";
 import {ArrowRight} from 'react-bootstrap-icons';
 import StyledLink from "../StyledLink/StyledLink";
-import food from "../../assets/images/food.svg"
-import groceryBag from "../../assets/images/groceries-bag.svg"
-import noteBook from "../../assets/images/notebook.svg"
-import {firestore} from "../../firebase";
+import food from "../../assets/images/food.svg";
+import groceryBag from "../../assets/images/groceries-bag.svg";
+import noteBook from "../../assets/images/notebook.svg";
+import {createUserDocument} from "../Database/firestore";
 
 const SignUp = () => {
 
-    const emailRef = useRef()
-    const passwordRef = useRef()
-    const passwordConfirmRef = useRef()
-    const {signup} = useAuth()
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
-    const history = useHistory()
+    const[email,setEmail]=useState("");
+    const[password,setPassword]=useState("");
+    const [confirmpassword,setConfirmpassword] = useState("");
+    const {signup} = useAuth();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const history = useHistory();
+
+    const handleEmailChange= (e)=>{
+        setEmail(e.target.value)
+    }
+
+    const handlePasswordChange =(e)=>{
+        setPassword(e.target.value)
+    }
+
+    const handleConfirmPasswordChange=(e)=>{
+        setConfirmpassword(e.target.value)
+    }
 
     const submitHandler = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError("Passwords do not match")
+        if(!email){
+            return setError("Email cannot be empty");
         }
 
-        if (passwordRef.current.value.length < 8) {
-            return setError("Password must be atleast 8 characters")
+        if(validateEmail(email)===false){
+            return setError("You must enter a valid email address");
+        }
+
+        if (password !== confirmpassword) {
+            return setError("Passwords do not match");
+        }
+
+        if (password.length < 8) {
+            return setError("Password must be atleast 8 characters");
         }
 
         try {
             setError("")
-            setLoading(true)
-            const res = await signup(emailRef.current.value, passwordRef.current.value)
+            setLoading(true);
+            const res = await signup(email, password);
             const user = res.user;
-            console.log(user)
-
-            // await firestore.collection("users").doc(user.uid).set({
-            //     email: user.email,
-            //     uid: user.uid
-            // });
-
-            history.push("/")
+            console.log(user);
+            await createUserDocument(user);
+            history.push("/");
 
         } catch (error) {
-            console.error(error)
-
+            console.error(error);
             setError("Failed to create an account")
-            setLoading(false)
+        }finally {
+            setLoading(false);
         }
+    }
+
+    function validateEmail(email) {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
     }
 
     return (
@@ -76,16 +96,15 @@ const SignUp = () => {
                     <Form.Group as={Row} className="mb-3" controlId="formBasicEmail" id="email">
                         <Col sm="12">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Email" className="form-input" ref={emailRef}
+                            <Form.Control type="email" placeholder="Email" className="form-input" onChange={handleEmailChange}
                                           required/>
                         </Col>
-
                     </Form.Group>
                     <Form.Group as={Row} className="mb-3" controlId="formBasicPassword" id="password">
                         <Col sm="12">
                             <Form.Label> Enter Password</Form.Label>
                             <Form.Control type="password" placeholder="●●●●●●●●●●●●" className="form-input"
-                                          ref={passwordRef} required/>
+                                          onChange={handlePasswordChange} required/>
                         </Col>
 
                     </Form.Group>
@@ -93,13 +112,13 @@ const SignUp = () => {
                         <Col sm="12">
                             <Form.Label>Confirm Password</Form.Label>
                             <Form.Control type="password" placeholder="●●●●●●●●●●●●" className="form-input"
-                                          ref={passwordConfirmRef} required/>
+                                          onChange={handleConfirmPasswordChange} required/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row}>
                         <Col sm="12">
                             <Button id="signup" disabled={loading} variant="primary" type="submit"
-                                    onClick={(e) => submitHandler(e)}>
+                                    onClick={submitHandler}>
                                 Sign Up
                             </Button><br/>
                         </Col>

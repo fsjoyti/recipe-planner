@@ -10,6 +10,14 @@ const Search = (props)=>{
         setSearchTerm(e.target.value);
     }
 
+    const handleKeyDown = (e)=>{
+        if(e.key === 'Enter'){
+            if(!searchTerm){
+                alert("You need to enter a search query")
+            }
+        }
+    }
+
     const resetInputs = () =>{
         setSearchTerm("");
     }
@@ -22,10 +30,11 @@ const Search = (props)=>{
 
     return(
         <div className="search">
-            <Form>
-                <InputGroup className="mb-3">
-                    <Form.Control type="text" placeholder = "Search recipes" value={searchTerm} onChange={handleInputChange}/>
-                    <Button variant="outline-secondary" onClick={performSearch}>Search</Button>
+            <Form className="d-flex">
+                <InputGroup className="m-lg-3">
+                    <Form.Control id="search"  type="text" placeholder = "Search recipes" value={searchTerm} aria-label= "Search-recipes"
+                                  onKeyDown={handleKeyDown} onChange={handleInputChange}/>
+                    <Button  size="lg" variant="outline-secondary" type="submit" onClick={performSearch}>Search</Button>
                 </InputGroup>
             </Form>
         </div>

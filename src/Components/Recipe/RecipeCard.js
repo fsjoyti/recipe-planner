@@ -2,12 +2,12 @@ import React from "react";
 import {Card} from "react-bootstrap";
 import './Recipe.css'
 import StyledLink from "../StyledLink/StyledLink";
-const Recipe = ({recipe})=> {
+const RecipeCard = ({recipe})=> {
     const {title, readyInMinutes, image, id}  = recipe;
 
     return(
-        <Card className="card mt-1 mb-1">
-            {image &&<Card.Img className="card-image-top" variant="top" src={image} alt={recipe.title}/>}
+        <Card className="card m-lg-2">
+            {image &&<Card.Img className="card-image-top" variant="top" src={image} alt={title}/>}
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
                 <Card.Subtitle className="mb-2 text-dark">Ready in minutes:{readyInMinutes} </Card.Subtitle>
@@ -17,4 +17,4 @@ const Recipe = ({recipe})=> {
     )
 }
 
-export default Recipe;
+export default RecipeCard;

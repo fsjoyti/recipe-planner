@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import './Recipe.css'
-import {useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import axios from "axios";
-import {Col, Container, Image, Row, Spinner} from "react-bootstrap";
+import {Alert, Button, Col, Container, Form, Image, Row, Spinner} from "react-bootstrap";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faThumbsUp,
@@ -11,7 +11,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import ReactHtmlParser from 'react-html-parser';
 import {useMountedState} from "react-use";
-import SimilarRecipe from "./SimilarRecipe";
+import RecipeItem from "./RecipeItem";
+import {useAuth} from "../../Contexts/AuthContext";
+import {addRecipe} from "../Database/firestore";
 
 const RecipeDetail = () => {
     const {id} = useParams();
@@ -19,41 +21,71 @@ const RecipeDetail = () => {
     const [similarRecipes, setSimilarRecipes] = useState([]);
     const [loading, setLoading] = useState(false);
     const isMounted = useMountedState();
-    useEffect(() => {
-        setLoading(true);
-        getRecipeInformation().then(response => {
-            console.log(response);
-            setRecipe(response)
-            setLoading(false);
-        }).catch(error => {
-            console.log(error)
-        });
-    }, [id]);
+    const [error, setError] = useState('');
+    const { currentUser } = useAuth();
+    const history = useHistory();
 
-    useEffect(()=>{
+    const getRecipeInformation = useCallback(async () => {
         setLoading(true);
-        getSimilarRecipes().then(response=>{
-            console.log(response);
-            if(isMounted()){
-                setSimilarRecipes(response);
+        try {
+            const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {params: {apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY}});
+            const {data} = await response;
+            if (isMounted()) {
+                setRecipe(data);
             }
-            setLoading(false);
-        }).catch(error => {
-            console.log(error)
-        });
+        } catch (error) {
+            if (isMounted()) {
+                setError(error);
+            }
+        } finally {
+            if (isMounted()) {
+                setLoading(false);
+            }
+        }
 
-    },[id]);
+    }, [id, isMounted]);
 
-    const getRecipeInformation = async () => {
-        const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {params: {apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY}});
-        const {data} = await response;
-        return data;
-    }
+    const getSimilarRecipes = useCallback(async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar`, {
+                params: {
+                    number: 4,
+                    apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY
+                }
+            });
+            const {data} = await response;
+            if (isMounted()) {
+                setSimilarRecipes(data);
+            }
+        } catch (error) {
+            if (isMounted()) {
+                setError(error);
+            }
+        } finally {
+            if (isMounted()) {
+                setLoading(false);
+            }
+        }
 
-    const getSimilarRecipes = async ()=>{
-        const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar`, {params: {number:6, apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY}});
-        const {data} = await response;
-        return data;
+    }, [id, isMounted]);
+
+    useEffect(() => {
+        getRecipeInformation();
+    }, [getRecipeInformation]);
+
+    useEffect(() => {
+       getSimilarRecipes();
+    }, [getSimilarRecipes]);
+
+    const submitHandler = async (e) =>{
+        try{
+           await addRecipe(currentUser, recipe);
+          history.push("/savedRecipes");
+        }catch (e) {
+            console.error(e);
+            setError("Failed to save recipe ");
+        }
     }
 
     return (
@@ -61,6 +93,7 @@ const RecipeDetail = () => {
             {
                 loading ? (<Spinner animation="border" role="status"/>)
                     : (<div className="mx-auto">
+                        {error && <Alert variant="danger">{error}</Alert>}
                         <div className="d-flex align-content-end flex-sm-nowrap fa-pull-right">
                             <div className="m-2 m-sm-1">
                                 <FontAwesomeIcon icon={faThumbsUp}/>
@@ -90,24 +123,21 @@ const RecipeDetail = () => {
                         <div className="recipe-instructions">
                             {ReactHtmlParser(recipe.instructions)}
                         </div>
-                            {recipe.winePairing.pairingText &&(
-                                <div className="wine-pairing">
-                                    <h6>Wine pairing:</h6>
-                                    <p>{recipe.winePairing.pairingText}</p>
-                                </div>
-                            )}
-                        <h5>Similar Recipes</h5>
+                       <div className="d-flex justify-content-center">
+                           <Button id="save" disabled={loading} className="w-75" variant="primary" type="submit" onClick={submitHandler}>
+                               Save Recipe
+                           </Button>
+                       </div>
                         <Row className="d-flex justify-content-md-between">
                             {
-                                similarRecipes.map((similarRecipe, index)=>(
-                                    <Col key={index} xs = "12" sm="4" md="4" lg="4">
-                                    <SimilarRecipe key = {similarRecipe.id} recipe={similarRecipe} />
+                                similarRecipes.map((similarRecipe, index) => (
+                                    <Col key={index} xs="12" sm="4" md="4" lg="4">
+                                        <RecipeItem key={similarRecipe.id} recipe={similarRecipe}/>
                                     </Col>
                                 ))
 
                             }
                         </Row>
-
                     </div>)
             }
         </Container>

@@ -1,30 +1,39 @@
 import "./Login.css"
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import {Form, Button, Alert, Row, Col} from "react-bootstrap";
 import {useAuth} from "../../Contexts/AuthContext";
 import StyledLink from "../StyledLink/StyledLink";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 
 const Login = ()=>{
 
-    const emailRef = useRef()
-    const passwordRef = useRef()
+    const[email,setEmail]=useState("");
+    const[password,setPassword]=useState("");
     const { login } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const history = useHistory()
+    const history = useHistory();
+
+    const handleEmailChange= (e)=>{
+        setEmail(e.target.value)
+    }
+
+    const handlePasswordChange =(e)=>{
+        setPassword(e.target.value)
+    }
 
     const submitHandler = async (e) =>{
-        e.preventDefault()
+        e.preventDefault();
         try {
             setError("")
             setLoading(true)
-            await login(emailRef.current.value, passwordRef.current.value)
-            history.push("/")
+            await login(email, password);
+            setLoading(false);
+            history.push("/");
         } catch {
-            setError("Failed to log in")
+            setError("Failed to log in");
+            setLoading(false);
         }
-        setLoading(false)
     }
 
     return(
@@ -35,18 +44,18 @@ const Login = ()=>{
                 <Form.Group  as={Row} className="mb-3" controlId="formBasicEmail" id="email">
                     <Col sm="12">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Email" className="form-input" ref={emailRef} required/>
+                        <Form.Control type="email" placeholder="Email" className="form-input" onChange={handleEmailChange} required/>
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3" controlId="formBasicPassword" id="password">
                     <Col sm="12">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="●●●●●●●●●●●●" ref={passwordRef} required/>
+                        <Form.Control type="password" placeholder="●●●●●●●●●●●●" onChange={handlePasswordChange} required/>
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row}>
                     <Col sm="12">
-                        <Button id="login" disabled={loading} className="w-100" variant="primary" type="submit" onClick={(e)=>submitHandler(e)}>
+                        <Button id="login" disabled={loading} className="w-100" variant="primary" type="submit" onClick={submitHandler}>
                             Log In
                         </Button>
                     </Col>

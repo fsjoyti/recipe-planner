@@ -5,24 +5,23 @@ import Signup from "./Components/SignUp/SignUp"
 import Login from './Components/Login/Login'
 import Home from "./Components/Home/Home";
 import RecipeDetail from "./Components/Recipe/RecipeDetail";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import MealPlan from "./Components/MealPlan/MealPlan";
+import React from "react";
+import SavedRecipes from "./Components/Recipe/SavedRecipes";
+
 function App() {
   return (
       <Container fluid className="Container-Height" >
           <Router>
               <AuthProvider>
                   <Switch>
-                     <Route exact path = "/">
-                         <Home/>
-                     </Route>
-                      <Route path="/signup">
-                          <Signup/>
-                      </Route>
-                      <Route path="/login">
-                          <Login/>
-                      </Route>
-                      <Route path = "/recipe/:id">
-                          <RecipeDetail/>
-                      </Route>
+                      <PrivateRoute exact path = "/" component={Home}/>
+                      <PrivateRoute path = "/recipe/:id" component={RecipeDetail} />
+                      <PrivateRoute path = "/mealplan" component={MealPlan} />
+                      <PrivateRoute path = "/savedRecipes" component={SavedRecipes}/>
+                      <Route path = "/signup" component={Signup} />
+                      <Route path = "/login" component = {Login}/>
                   </Switch>
               </AuthProvider>
           </Router>

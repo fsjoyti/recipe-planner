@@ -29,13 +29,16 @@
     font-size: 0.8em;
 }
 
-.btn-primary,
+.btn-primary{
+    background-color: #8EC5FC;
+    border-color: #8EC5FC;
+}
+
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary:visited,
-.btn-primary:focus {
-    background-color: #8EC5FC;
-    border-color: #8EC5FC;
+.btn-primary:focus{
+    background-color: #01579b;
 }
 
 .signup-div input,
