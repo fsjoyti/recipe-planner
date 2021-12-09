@@ -1,46 +1,57 @@
 import {db} from "../../firebase";
 
-const createUserDocument = async (user)=>{
-    if(!user) return;
+const createUserDocument = async (user) => {
+    if (!user) return;
     const userReference = db.doc(`users/${user.uid}`);
     const snapshot = await userReference.get();
-    if(!snapshot.exists){
+    if (!snapshot.exists) {
         const {email} = user;
-        try{
-            userReference.set({
+        try {
+            await userReference.set({
                 email,
                 createdAt: Date.now()
             });
-        }catch(error){
+        } catch (error) {
             console.log('Error in saving user', error);
         }
     }
 }
 
-const addRecipe = async (user, recipe)=>{
-    if(!user) return;
-    if(!recipe) return;
+const addRecipe = async (user, recipe) => {
+    if (!user) return;
+    if (!recipe) return;
     console.log(user.uid);
-
-    try{
+    try {
         await db.collection('users').doc(user.uid).collection('recipes').add(recipe);
-    }catch (e) {
+    } catch (e) {
         console.error("Error adding recipe", e);
     }
 }
 
 
-const deleteRecipe = async (user, id)=>{
-    if(!user) return;
-   const recipe= await db.collection('users').doc(user.uid).collection('recipes').where('id', '==', id).get();
-   console.log(recipe);
-    recipe.forEach((doc)=>{
-        doc.ref.delete().then(()=>{
+const deleteRecipe = async (user, id) => {
+    if (!user) return;
+    const recipe = await db.collection('users').doc(user.uid).collection('recipes').where('id', '==', id).get();
+    console.log(recipe);
+    recipe.forEach((doc) => {
+        doc.ref.delete().then(() => {
             console.log("Recipe deleted successfully!")
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log('Failed to delete recipe: ', error);
         });
     });
 }
 
-export{createUserDocument, addRecipe, deleteRecipe}
+const saveMeal = async (user, meal) => {
+    if (!user) return;
+    if (!meal) return;
+    console.log(user.uid);
+    try {
+        await db.collection('users').doc(user.uid).collection('meals').add(meal);
+        console.log('Successfully saved');
+    } catch (e) {
+        console.error("Error saving meal", e);
+    }
+}
+
+export {createUserDocument, addRecipe, deleteRecipe, saveMeal}

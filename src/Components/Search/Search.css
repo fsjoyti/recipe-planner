@@ -5,14 +5,57 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 1em;
+    margin-bottom: 1em;
+    max-width: 100%;
 }
 
-div.search > form{
-    margin-bottom: 2em;
-    width: 100%;
+div.search > form > div > div > div > input{
+    border: 1px hotpink solid;
+    margin-top: 0;
+    height: 3em;
 }
 
+@media screen  and (min-width: 768px) and (max-width: 1024px){
 
-#search{
-    height: 3.125em !important;
+    div.search > form{
+        width: 100%;
+    }
+
+    div.search > form > div > div > div > input{
+        border: 1px hotpink solid;
+        margin-top: 0;
+        height: 3em;
+        width: 80%;
+        flex-grow: 1;
+        margin-left: 2em;
+    }
+
+    div.search > form > div > div > div > button{
+        flex-grow: 0.130;
+    }
+}
+
+@media screen and (min-width: 1025px){
+    div.search > form{
+        width: 100%;
+    }
+
+    div.search > form > div > div > div > input{
+        border: 1px hotpink solid;
+        margin-top: 0;
+        height: 3em;
+        width: 80%;
+        flex-grow: 1;
+        margin-left: 2em;
+    }
+
+    div.search > form > div > div > div > button{
+        flex-grow: 0.160;
+    }
+}
+
+@media screen and (min-width: 2000px){
+    div.search > form > div > div > div > button{
+        flex-grow: 0.22;
+    }
 }

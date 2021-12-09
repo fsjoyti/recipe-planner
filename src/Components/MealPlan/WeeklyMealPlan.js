@@ -1,7 +1,7 @@
 import Meals from "./Meals";
 import React from "react";
 
-const WeeklyRecipes = ({week})=>{
+const WeeklyMealPlan = ({week})=>{
 
     const {monday, tuesday, wednesday,thursday, friday,saturday,sunday} = week;
 
@@ -53,4 +53,4 @@ const WeeklyRecipes = ({week})=>{
     );
 }
 
-export default WeeklyRecipes;
+export default WeeklyMealPlan;

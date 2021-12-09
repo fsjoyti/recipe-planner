@@ -6,6 +6,7 @@ const LoggedInNav = () =>{
     const [error, setError] = useState("");
     const {logout } = useAuth();
     const history = useHistory();
+    const [isSavedItemsOpen, setIsSavedItemsOpen] = useState(false);
 
     const handleLogOut = async (event) => {
         setError("");
@@ -19,20 +20,29 @@ const LoggedInNav = () =>{
     }
 
     return (
-        <Navbar bg="light" variant="light">
-            <Container>
+        <Navbar collapseOnSelect bg="light" variant="light" expand="lg">
+            <Container fluid>
                 <Navbar.Brand  as={Link} to='/'>Recipe-Planner</Navbar.Brand>
                 <Navbar.Toggle />
-                <Nav className="me-auto">
-                    <Nav.Link as={NavLink} to='/' exact>Home</Nav.Link>
-                    <Nav.Link as={NavLink} to='/mealplan'>MealPlan</Nav.Link>
-                    <Nav.Link as={NavLink} to='/savedRecipes'>Saved Recipes</Nav.Link>
-                </Nav>
-                <Navbar.Collapse className="justify-content-end">
-                    <Button variant="light" onClick={(e)=>handleLogOut(e)}>
-                                 Log Out
-                            </Button>
+                <Navbar.Collapse className="responsive-navbar-nav">
+                    <Nav className="me-auto my-2 my-lg-0">
+                        <Nav.Link as={NavLink} to='/' exact>Home</Nav.Link>
+                        <Nav.Link as={NavLink} to='/mealplan'>MealPlan</Nav.Link>
+                        <NavDropdown title='Saved Items' id='saved-items'
+                                     onMouseEnter={() => setIsSavedItemsOpen(true)}
+                                     onMouseLeave={() => setIsSavedItemsOpen(false)}
+                                     show={isSavedItemsOpen}>
+                            <NavDropdown.Item as={NavLink} to='/savedRecipes'>SavedRecipes</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to='/savedMeals'>SavedMeals</NavDropdown.Item>
+                        </NavDropdown>
+
+                    </Nav>
                 </Navbar.Collapse>
+                <Nav className="justify-content-end">
+                    <Button variant="light" onClick={(e)=>handleLogOut(e)}>
+                        Log Out
+                    </Button>
+                </Nav>
             </Container>
         </Navbar>
     )

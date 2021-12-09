@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useAuth} from "../../Contexts/AuthContext";
-
-import {Alert, Card, Col, ListGroup, Row, Spinner} from "react-bootstrap";
+import './Recipe.css';
+import {Alert, Container, Spinner} from "react-bootstrap";
 
 import RecipeLists from "./RecipeLists";
 import {db} from "../../firebase";
@@ -27,11 +27,11 @@ const SavedRecipes = ()=>{
 
  return(
      loading? (<Spinner animation="border" role="status"/>): (
-         <div>
+           <Container fluid id="saved-recipes" className="d-flex flex-wrap justify-content-center">
              {error && <Alert variant="danger">{error}</Alert>}
-             <h1 className="text-center">Saved Recipes</h1>
+             <h1 className="saved-recipe-header text-center">Saved Recipes</h1>
              <RecipeLists recipes={savedRecipes} isavedRecipeScreen={true}/>
-         </div>
+         </Container>
 
      )
  )

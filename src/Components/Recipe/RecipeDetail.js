@@ -97,26 +97,24 @@ const RecipeDetail = () => {
                         <div className="d-flex align-content-end flex-sm-nowrap fa-pull-right">
                             <div className="m-2 m-sm-1">
                                 <FontAwesomeIcon icon={faThumbsUp}/>
-                                <span>
+                                <span data-descr="Recipe HealthScore">
                                 {recipe.healthScore}
                              </span>
                             </div>
                             <div className="m-2 m-sm-1">
                                 <FontAwesomeIcon icon={faUsers}/>
-                                <span>
+                                <span data-descr="Recipe Servings">
                                 {recipe.servings}
                              </span>
                             </div>
                             <div className="m-2 m-sm-1">
                                 <FontAwesomeIcon icon={faStopwatch}/>
-                                <span>{recipe.readyInMinutes}</span>
+                                <span data-descr="Recipe Ready In Minutes">{recipe.readyInMinutes}</span>
                             </div>
                         </div>
                         <h1 className="text-center">{recipe.title}</h1>
                         <Row className="justify-content-md-center mt-2">
-                            <Col xs="12" sm="12" md="8" lg="8">
-                                <Image src={recipe.image} alt={recipe.title} className="img-detail img-fluid"/>
-                            </Col>
+                            <Image src={recipe.image} alt={recipe.title} className="img-detail img-fluid"/>
                         </Row>
                         <p className="lead recipe-summary">{ReactHtmlParser(recipe.summary)}</p>
                         <h6>Instructions for cooking:</h6>
@@ -128,16 +126,19 @@ const RecipeDetail = () => {
                                Save Recipe
                            </Button>
                        </div>
-                        <Row className="d-flex justify-content-md-between">
+                    <div id ="similar-recipes">
+                        <Row className="d-flex justify-content-md-between justify-content-xl-center">
                             {
                                 similarRecipes.map((similarRecipe, index) => (
-                                    <Col key={index} xs="12" sm="4" md="4" lg="4">
+                                    <Col key={index} xs="12" sm="4" md="4" lg="6">
                                         <RecipeItem key={similarRecipe.id} recipe={similarRecipe}/>
                                     </Col>
                                 ))
 
                             }
                         </Row>
+                    </div>
+
                     </div>)
             }
         </Container>

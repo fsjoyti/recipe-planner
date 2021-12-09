@@ -1,6 +1,6 @@
 import "./Search.css"
 import React, {useState} from "react";
-import {Button, Form, InputGroup} from "react-bootstrap";
+import {Button, Col, Form, InputGroup, Row} from "react-bootstrap";
 
 const Search = (props)=>{
 
@@ -30,12 +30,17 @@ const Search = (props)=>{
 
     return(
         <div className="search">
-            <Form className="d-flex">
-                <InputGroup className="m-lg-3">
-                    <Form.Control id="search"  type="text" placeholder = "Search recipes" value={searchTerm} aria-label= "Search-recipes"
-                                  onKeyDown={handleKeyDown} onChange={handleInputChange}/>
-                    <Button  size="lg" variant="outline-secondary" type="submit" onClick={performSearch}>Search</Button>
-                </InputGroup>
+            <Form>
+                <Row className="align-items-center">
+                    <Col>
+                        <InputGroup className="mb-3">
+                            <Form.Control type="text" placeholder = "Search recipes" value={searchTerm} aria-label= "Search-recipes"
+                                          onKeyDown={handleKeyDown} onChange={handleInputChange}/>
+                            <Button size="lg"  variant="outline-secondary" type="submit" onClick={performSearch}>Search</Button>
+                        </InputGroup>
+                    </Col>
+                </Row>
+
             </Form>
         </div>
     )

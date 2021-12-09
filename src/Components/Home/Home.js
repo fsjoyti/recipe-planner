@@ -15,7 +15,7 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const {currentUser} = useAuth()
     const [recipes, setRecipes] = useState([]);
-    const [query, setQuery] = useState("American");
+    const [query, setQuery] = useState("American Vegan");
     const isMounted = useMountedState();
     const [error, setError] = useState('');
 

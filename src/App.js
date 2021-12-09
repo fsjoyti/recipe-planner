@@ -9,10 +9,11 @@ import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import MealPlan from "./Components/MealPlan/MealPlan";
 import React from "react";
 import SavedRecipes from "./Components/Recipe/SavedRecipes";
+import SavedMeals from "./Components/MealPlan/SavedMeals";
 
 function App() {
   return (
-      <Container fluid className="Container-Height" >
+      <Container fluid>
           <Router>
               <AuthProvider>
                   <Switch>
@@ -20,6 +21,7 @@ function App() {
                       <PrivateRoute path = "/recipe/:id" component={RecipeDetail} />
                       <PrivateRoute path = "/mealplan" component={MealPlan} />
                       <PrivateRoute path = "/savedRecipes" component={SavedRecipes}/>
+                      <PrivateRoute path = "/savedMeals" component={SavedMeals}/>
                       <Route path = "/signup" component={Signup} />
                       <Route path = "/login" component = {Login}/>
                   </Switch>
