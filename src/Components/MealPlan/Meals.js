@@ -11,8 +11,6 @@ const Meals = ({ mealData , isSavedMealScreen=false}) => {
     const {meals} = mealData;
     const {currentUser} = useAuth();
     const history = useHistory();
-    console.log('Inside meals component', nutrients);
-    console.log('Inside meals component', meals);
 
     const saveDailyMeal  = async ()=>{
         try{
@@ -22,9 +20,7 @@ const Meals = ({ mealData , isSavedMealScreen=false}) => {
             console.log(error);
         }
     }
-    const deleteDailyMeal = async ()=>{
 
-    }
 
     return (
         <section>
@@ -48,9 +44,7 @@ const Meals = ({ mealData , isSavedMealScreen=false}) => {
                         ))
                     }
                 </Row>
-
                 {isSavedMealScreen === false &&  <Button id="save-meal" variant="secondary" onClick={saveDailyMeal}>Save this meal</Button>}
-                {isSavedMealScreen &&  <Button id="save-meal" variant="danger" onClick={deleteDailyMeal}>Delete this meal</Button>}
             </article>
 
         </section>

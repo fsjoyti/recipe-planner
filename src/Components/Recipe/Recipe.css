@@ -112,7 +112,7 @@ p+h6{
     margin-bottom: 1em;
 }
 
-p::before{
+p[class~="recipe-summary"]::before{
   content: "Recipe Summary:";
   font-weight: bold;
   margin-right: 0.2em;

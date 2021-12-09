@@ -14,7 +14,7 @@ const RecipeItem =({recipe})=>{
 
     useEffect(()=>{
         getRecipeInformation(recipe['id']).then(response=>{
-            console.log(response);
+
            if(isMounted()) {
                setLoading(false)
                setRecipeDetail(response);

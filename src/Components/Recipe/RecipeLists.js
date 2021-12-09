@@ -14,7 +14,6 @@ const RecipeLists = ({recipes, isavedRecipeScreen = false})=>{
         try{
             await deleteRecipe(currentUser, id);
         }catch (error) {
-           console.log(error);
             if(isMounted()){
                 if (isMounted()) {
                     setError(error);

@@ -1,4 +1,4 @@
-import "./Login.css"
+import "./Login..css"
 import React, {useState} from "react";
 import {Form, Button, Alert, Row, Col} from "react-bootstrap";
 import {useAuth} from "../../Contexts/AuthContext";
@@ -44,13 +44,13 @@ const Login = ()=>{
                 <Form.Group  as={Row} className="mb-3" controlId="formBasicEmail" id="email">
                     <Col sm="12">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Email" className="form-input" onChange={handleEmailChange} required/>
+                        <Form.Control type="email" placeholder="Email" className="form-input form-control-lg" onChange={handleEmailChange} required/>
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3" controlId="formBasicPassword" id="password">
                     <Col sm="12">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="●●●●●●●●●●●●" onChange={handlePasswordChange} required/>
+                        <Form.Control type="password" className="form-input form-control-lg" placeholder="●●●●●●●●●●●●" onChange={handlePasswordChange} required/>
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row}>

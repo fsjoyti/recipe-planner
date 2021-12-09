@@ -31,8 +31,8 @@ const addRecipe = async (user, recipe) => {
 
 const deleteRecipe = async (user, id) => {
     if (!user) return;
-    const recipe = await db.collection('users').doc(user.uid).collection('recipes').where('id', '==', id).get();
-    console.log(recipe);
+    const recipe = await db.collection('users').doc(user.uid)
+        .collection('recipes').where('id', '==', id).get();
     recipe.forEach((doc) => {
         doc.ref.delete().then(() => {
             console.log("Recipe deleted successfully!")
@@ -45,7 +45,6 @@ const deleteRecipe = async (user, id) => {
 const saveMeal = async (user, meal) => {
     if (!user) return;
     if (!meal) return;
-    console.log(user.uid);
     try {
         await db.collection('users').doc(user.uid).collection('meals').add(meal);
         console.log('Successfully saved');
@@ -54,4 +53,14 @@ const saveMeal = async (user, meal) => {
     }
 }
 
-export {createUserDocument, addRecipe, deleteRecipe, saveMeal}
+const deleteMeal = async (user, id) => {
+    const mealReference = db.doc(`users/${user.uid}/meals/${id}`);
+    mealReference.delete().then(()=>{
+        console.log('Meal deleted successfully!');
+    }).catch((error)=>{
+        console.log('Failed to delete recipe: ', error);
+    });
+
+}
+
+export {createUserDocument, addRecipe, deleteRecipe, saveMeal, deleteMeal}

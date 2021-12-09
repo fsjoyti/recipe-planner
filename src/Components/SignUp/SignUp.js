@@ -94,7 +94,7 @@ const SignUp = () => {
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form>
                     <Form.Group as={Row} className="mb-3" controlId="formBasicEmail" id="email">
-                        <Col sm="12">
+                        <Col sm="12" >
                             <Form.Label>Email address</Form.Label>
                             <Form.Control type="email" placeholder="Email" className="form-input" onChange={handleEmailChange}
                                           required/>
@@ -128,7 +128,7 @@ const SignUp = () => {
                     </Form.Text>
                 </Form>
                 <div className="text-center" id="signed-up">
-                    <p id="have-account">Have an account? </p><StyledLink to="/login">Log In<ArrowRight
+                    <div id="have-account">Have an account? </div><StyledLink to="/login">Log In<ArrowRight
                     className="ml-4"/></StyledLink>
                 </div>
             </div>
