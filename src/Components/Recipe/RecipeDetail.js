@@ -31,6 +31,7 @@ const RecipeDetail = () => {
             const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {params: {apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY}});
             const {data} = await response;
             if (isMounted()) {
+                console.log(data);
                 setRecipe(data);
             }
         } catch (error) {

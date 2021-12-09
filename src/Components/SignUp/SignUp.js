@@ -9,6 +9,7 @@ import food from "../../assets/images/food.svg";
 import groceryBag from "../../assets/images/groceries-bag.svg";
 import noteBook from "../../assets/images/notebook.svg";
 import {createUserDocument} from "../Database/firestore";
+import {useMountedState} from "react-use";
 
 const SignUp = () => {
 
@@ -19,6 +20,7 @@ const SignUp = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const history = useHistory();
+    const isMounted = useMountedState();
 
     const handleEmailChange= (e)=>{
         setEmail(e.target.value)
@@ -56,15 +58,19 @@ const SignUp = () => {
             setLoading(true);
             const res = await signup(email, password);
             const user = res.user;
-            console.log(user);
             await createUserDocument(user);
             history.push("/");
 
         } catch (error) {
-            console.error(error);
-            setError("Failed to create an account")
+            if(isMounted()){
+                setError("Failed to create an account")
+            }
+
         }finally {
-            setLoading(false);
+            if(isMounted()){
+                setLoading(false);
+            }
+
         }
     }
 
