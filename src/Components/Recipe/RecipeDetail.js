@@ -95,34 +95,34 @@ const RecipeDetail = () => {
                     : (<div className="mx-auto">
                         {error && <Alert variant="danger">{error}</Alert>}
                         <div className="d-flex align-content-end flex-sm-nowrap fa-pull-right">
-                            <div className="m-2 m-sm-1">
+                            <div className="m-2 m-sm-1 m-lg-2 icon">
                                 <FontAwesomeIcon icon={faThumbsUp}/>
                                 <span data-descr="Recipe HealthScore">
                                 {recipe.healthScore}
                              </span>
                             </div>
-                            <div className="m-2 m-sm-1">
+                            <div className="m-2 m-sm-1 m-lg-2 icon">
                                 <FontAwesomeIcon icon={faUsers}/>
                                 <span data-descr="Recipe Servings">
                                 {recipe.servings}
                              </span>
                             </div>
-                            <div className="m-2 m-sm-1">
+                            <div className="m-2 m-sm-1 m-lg-2 icon">
                                 <FontAwesomeIcon icon={faStopwatch}/>
                                 <span data-descr="Recipe Ready In Minutes">{recipe.readyInMinutes}</span>
                             </div>
                         </div>
-                        <h1 className="text-center">{recipe.title}</h1>
+                        <h1 className="text-center header-color select-headers-style">{recipe.title}</h1>
                         <Row className="justify-content-md-center mt-2">
                             <Image src={recipe.image} alt={recipe.title} className="img-detail img-fluid"/>
                         </Row>
                         <p className="lead recipe-summary">{ReactHtmlParser(recipe.summary)}</p>
-                        <h6>Instructions for cooking:</h6>
-                        <div className="recipe-instructions">
+                        <h6 className="recipe-detail-color">Instructions for cooking:</h6>
+                        <div className="recipe-instructions highlight">
                             {ReactHtmlParser(recipe.instructions)}
                         </div>
                        <div className="d-flex justify-content-center">
-                           <Button id="save" disabled={loading} className="w-75" variant="primary" type="submit" onClick={submitHandler}>
+                           <Button id="save" disabled={loading} className="w-75 mealplan-button" variant="primary" type="submit" onClick={submitHandler}>
                                Save Recipe
                            </Button>
                        </div>
@@ -130,7 +130,7 @@ const RecipeDetail = () => {
                         <Row className="d-flex justify-content-md-between justify-content-xl-center">
                             {
                                 similarRecipes.map((similarRecipe, index) => (
-                                    <Col key={index} xs="12" sm="4" md="4" lg="6">
+                                    <Col key={index} xs="12" sm="6" md="6" lg="6">
                                         <RecipeItem key={similarRecipe.id} recipe={similarRecipe}/>
                                     </Col>
                                 ))

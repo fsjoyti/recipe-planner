@@ -8,24 +8,12 @@ import {deleteMeal, deleteRecipe} from "../Database/firestore";
 import {useMountedState} from "react-use";
 
 const SavedMeals = () => {
-    const isMounted = useMountedState();
+
     const [savedMeals, setSavedMeals] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const {currentUser} = useAuth();
 
-    const deleteDailyMeal = async (id) => {
-        console.log(id)
-        try {
-            await deleteMeal(currentUser, id);
-        } catch (error) {
-            if (isMounted()) {
-                if (isMounted()) {
-                    setError(error);
-                }
-            }
-        }
-    }
 
     useEffect(() => {
         setLoading(true);
@@ -52,14 +40,13 @@ const SavedMeals = () => {
         loading ? (<Spinner animation="border" role="status"/>) : (
             <Container fluid id="saved-meals" className="d-flex flex-wrap justify-content-center">
                 {error && <Alert variant="danger">{error}</Alert>}
-                <h1>Saved Meals</h1>
+                <h1 className="header-color text-center">Saved Meals</h1>
                 <div>
                     <Row>
                         {savedMeals.map((savedMeal, index) => (
                             <Col key={index} xs="12" sm="12" md="12" lg="12">
-                                <Meals mealData={savedMeal} isSavedMealScreen={true}/>
-                                <Button id="save-meal" variant="danger" onClick={() => deleteDailyMeal(savedMeal.id)}>Delete
-                                    this meal</Button>
+                                <Meals mealData={savedMeal} isSavedMealScreen={true} id={savedMeal.id}/>
+
                             </Col>
                         ))}
                     </Row>

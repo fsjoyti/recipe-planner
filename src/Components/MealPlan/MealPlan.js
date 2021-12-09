@@ -5,12 +5,14 @@ import {Alert, Button, Col, Container, Form, FormControl, InputGroup, ListGroup}
 import Meals from "./Meals";
 import WeeklyMealPlan from "./WeeklyMealPlan";
 import './Mealplan.css'
+import sampledata from './mealdata.json'
 
 const MealPlan = () => {
+
     const [diet, setDiet] = useState("");
     const [timeFrame, setTimeFrame] = useState("");
     const [targetCalories, setTargetCalories] = useState("");
-    const [meals, setMeals] = useState(null);
+    const [meals, setMeals] = useState(sampledata);
     const [weeks, setWeeks] = useState(null);
     const [excludedIngredients, setExcludedIngredients] = useState([]);
     const [ingredient, setIngredient] = useState("");
@@ -88,17 +90,17 @@ const MealPlan = () => {
         <Container fluid className="meal-plan d-flex flex-lg-column flex-xl-column flex-wrap flex-xl-nowrap justify-content-center">
             {error && <Alert variant="danger">{error}</Alert>}
             <div>
-                <h1 className="text-center">Meal Planner</h1>
-                <h3 className="text-muted">Get a weekly or daily meal plan based on your calories and diet</h3>
+                <h1 className="text-center header-color">Meal Planner</h1>
+                <h3 className="text-muted muted-text-color">Get a weekly or daily meal plan based on your calories and diet</h3>
             </div>
             <div id="mealplan-select-div">
-                <h4>Select time frame</h4>
+                <h4 className="select-headers-color select-headers-style">Select time frame</h4>
                 <select value={timeFrame} className="form-select form-select-sm mb-3" onChange={handleTimeFrameChange}>
                     <option value="">Please select one</option>
                     <option value="day">Day</option>
                     <option value="week">Week</option>
                 </select>
-                <h4>Select diet</h4>
+                <h4 className="select-headers-color select-headers-style">Select diet</h4>
                 <select value={diet} className="form-select form-select-sm mb-3" onChange={handleDietChange}>
                     <option value="">Please select one</option>
                     <option value="none">No Diet</option>
@@ -112,7 +114,7 @@ const MealPlan = () => {
                     <option value="ketogenic">Ketogenic</option>
                     <option value="whole30">Whole 30</option>
                 </select>
-                <h4>Select total daily calories</h4>
+                <h4 className="select-headers-color select-headers-style">Select total daily calories</h4>
                 <select value={targetCalories} className="form-select form-select-sm mb-3"
                         onChange={handleTargetCaloriesChange}>
                     <option value="">Please select one</option>
@@ -127,13 +129,13 @@ const MealPlan = () => {
                     <option value="2800">3000</option>
                     <option value="3200">3200</option>
                 </select>
-                <h4>Enter excluded ingredients(optional)</h4>
+                <h4 className="select-headers-color select-headers-style">Enter excluded ingredients(optional)</h4>
                 <Form.Control id="excluded" type="text" placeholder="Excluded ingredients" value={ingredient}
                               onChange={handleInputChange} aria-label="Excluded ingredients"
                               onKeyDown={handleKeyDown}/>
             </div>
 
-            <Button className="w-50" variant="primary" type="submit" onClick={fetchMealPlan}>Get Meal
+            <Button className="w-50 mealplan-button" disabled={loading} variant="primary" type="submit" onClick={fetchMealPlan}>Get Meal
                 Plan</Button>
 
             <div>
@@ -145,7 +147,7 @@ const MealPlan = () => {
                 </ListGroup>
             </div>
 
-            <div className="meal-item">
+            <div className="meal-item spacing">
                 {meals && <div>
                     <Meals mealData={meals}/>
                 </div>

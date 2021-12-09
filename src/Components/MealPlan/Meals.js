@@ -1,16 +1,19 @@
 import {Button, Col, ListGroup, Row} from "react-bootstrap";
 import RecipeItem from "../Recipe/RecipeItem";
-import React from "react";
-import {saveMeal} from "../Database/firestore";
+import React, {useState} from "react";
+import {deleteMeal, saveMeal} from "../Database/firestore";
 import './Mealplan.css'
 import {useAuth} from "../../Contexts/AuthContext";
 import {useHistory} from 'react-router-dom';
+import {useMountedState} from "react-use";
 
-const Meals = ({ mealData , isSavedMealScreen=false}) => {
+const Meals = ({ mealData , isSavedMealScreen=false, id = null}) => {
     const {nutrients} = mealData;
     const {meals} = mealData;
     const {currentUser} = useAuth();
     const history = useHistory();
+    const isMounted = useMountedState();
+    const [error, setError] = useState('');
 
     const saveDailyMeal  = async ()=>{
         try{
@@ -21,9 +24,21 @@ const Meals = ({ mealData , isSavedMealScreen=false}) => {
         }
     }
 
+    const deleteDailyMeal = async (id) => {
+        try {
+            await deleteMeal(currentUser, id);
+        } catch (error) {
+            if (isMounted()) {
+                if (isMounted()) {
+                    setError(error);
+                }
+            }
+        }
+    }
+
 
     return (
-        <section>
+        <section className="spacing">
             <article>
                 <ListGroup as="ul" className="list-group d-flex justify-content-md-between">
                     <ListGroup.Item as="li" className="list-group-item">Total
@@ -44,7 +59,9 @@ const Meals = ({ mealData , isSavedMealScreen=false}) => {
                         ))
                     }
                 </Row>
-                {isSavedMealScreen === false &&  <Button id="save-meal" variant="secondary" onClick={saveDailyMeal}>Save this meal</Button>}
+                {isSavedMealScreen === false &&  <Button  className="mealplan-button save-meal" onClick={saveDailyMeal}>Save this meal</Button>}
+                {isSavedMealScreen === true && id && <Button id="delete-meal" variant="danger" onClick={() => deleteDailyMeal(id)}>Delete
+                    this meal</Button>}
             </article>
 
         </section>

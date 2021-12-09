@@ -64,7 +64,7 @@ const Home = () => {
     ]
 
     return loading ? (<Spinner animation="border" role="status"/>):(
-        <div className="home">
+        <div className="home spacing">
             {error && <Alert variant="danger">{error}</Alert>}
             <strong>Email:</strong> {currentUser.email}
             <div className="mealtime">

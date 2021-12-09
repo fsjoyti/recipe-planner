@@ -1,7 +1,8 @@
-import {Button, Alert, Navbar, Container, Nav, NavDropdown} from "react-bootstrap";
+import {Button,  Navbar, Container, Nav, NavDropdown} from "react-bootstrap";
 import {useAuth} from "../../Contexts/AuthContext";
 import {Link, NavLink, useHistory} from "react-router-dom"
 import React, {useState} from "react";
+import './LoggedInNavbar.css'
 const LoggedInNav = () =>{
     const [error, setError] = useState("");
     const {logout } = useAuth();
@@ -20,7 +21,7 @@ const LoggedInNav = () =>{
     }
 
     return (
-        <Navbar collapseOnSelect bg="light" variant="light" expand="lg">
+        <Navbar collapseOnSelect className="navbar-recipe" variant="dark" expand="lg">
             <Container fluid>
                 <Navbar.Brand  as={Link} to='/'>Recipe-Planner</Navbar.Brand>
                 <Navbar.Toggle />
@@ -39,7 +40,7 @@ const LoggedInNav = () =>{
                     </Nav>
                 </Navbar.Collapse>
                 <Nav className="justify-content-end">
-                    <Button variant="light" onClick={(e)=>handleLogOut(e)}>
+                    <Button className="bg-dark logout-color" onClick={(e)=>handleLogOut(e)}>
                         Log Out
                     </Button>
                 </Nav>

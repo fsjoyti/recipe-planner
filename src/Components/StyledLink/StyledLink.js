@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledLink = styled(Link)`
     text-decoration: none;
-    font-size: 0.8em;
+    font-size: 1.2em;
 
     &:focus, &:hover, &:visited, &:link, &:active {
         text-decoration: none;

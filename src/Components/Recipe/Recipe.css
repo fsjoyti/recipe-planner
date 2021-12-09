@@ -53,6 +53,7 @@ a:hover{
 }
 .recipe-summary{
     margin: 2em 2em 1em;
+
 }
 
 h4+select{
@@ -92,16 +93,52 @@ ol li::before{
 }
 
 .saved-recipe-header{
+    color: #4527a0;
     margin-bottom: 2em;
 }
 
 .recipe-instructions{
     margin:  1em 2em;
+    font-size: 1.4rem;
+}
+
+@keyframes highlight {
+    0% {
+        background: #ff80ab ;
+        font-weight: bold;
+    }
+    100% {
+        background: none;
+    }
+}
+.highlight{
+    animation: highlight 5s;
 }
 
 p+h6{
     margin-left: 1.2em;
     font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.icon i,
+.icon svg {
+    color: #5c6bc0;
+}
+
+.recipe-title{
+    color: #4527a0 !important;
+    text-align: center;
+}
+
+.recipe-subtitle{
+    color: #7c4dff !important;
+    text-align: center;
+}
+
+b{
+    color: #4527a0 !important;
+    font-weight: 600 !important;
 }
 
 .image-parent {
@@ -116,6 +153,11 @@ p[class~="recipe-summary"]::before{
   content: "Recipe Summary:";
   font-weight: bold;
   margin-right: 0.2em;
+    color: #4527a0
+}
+
+.recipe-detail-color{
+  color: #4527a0;
 }
 
 @media(max-width: 320px){
@@ -125,10 +167,14 @@ p[class~="recipe-summary"]::before{
 }
 
 @media only screen and (min-width: 767px) {
-    .img-detail{
-       width: 90%;
-       height: 100%;
+    #similar-recipes{
+        padding: 2em;
     }
+    #similar-recipes .card{
+        width: 20em;
+        height: 30em;
+    }
+
     p{
         font-size: 1.4rem;
     }
@@ -144,22 +190,44 @@ p[class~="recipe-summary"]::before{
 
 @media only screen and (device-width: 1024px) {
 
+
     #similar-recipes .card{
         width: 28em;
+        height: unset;
     }
 }
 
 @media only screen and (min-width: 1280px) and (min-height: 800px){
+
     #similar-recipes .card{
         width: 35em;
     }
+
+    .img-detail{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+
 }
 
 @media (min-width:1281px) {
+
     #similar-recipes .card{
-        width: 50em;
+        width: 55em;
+        height: unset;
+
     }
     #similar-recipes{
-        padding: 10em;
+        padding: 4em;
     }
+
+    .img-detail{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+
 }
