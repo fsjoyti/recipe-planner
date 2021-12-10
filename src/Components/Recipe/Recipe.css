@@ -188,9 +188,7 @@ p[class~="recipe-summary"]::before{
     }
 }
 
-@media only screen and (device-width: 1024px) {
-
-
+@media only screen and (min-width: 1024px) and(max-width: 1279px) {
     #similar-recipes .card{
         width: 28em;
         height: unset;
@@ -230,4 +228,13 @@ p[class~="recipe-summary"]::before{
         width: 50%;
     }
 
+
+}
+
+@media only screen
+and (min-width: 1370px)
+and (max-width: 1605px)  {
+    h1[class~="recipe-summary"]{
+        color: hotpink;
+    }
 }

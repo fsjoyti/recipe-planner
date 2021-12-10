@@ -52,7 +52,7 @@ const Meals = ({ mealData , isSavedMealScreen=false, id = null}) => {
                 <Row className="d-flex justify-content-between">
                     {
                         meals.map((meal, index) => (
-                            <Col key={index} xs="12" sm="4" md="4" lg="4">
+                            <Col key={index} xs="12" sm="8" md="6" lg="6" xl="4">
                                 <RecipeItem key={meal.id} recipe={meal}/>
                             </Col>
                         ))
