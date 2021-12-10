@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import './Recipe.css'
 import {useHistory, useParams} from 'react-router-dom';
 import axios from "axios";
-import {Alert, Button, Col, Container, Form, Image, Row, Spinner} from "react-bootstrap";
+import {Alert, Button, Col, Container, Image, Row, Spinner} from "react-bootstrap";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faThumbsUp,

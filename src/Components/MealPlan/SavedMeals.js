@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {useAuth} from "../../Contexts/AuthContext";
 import {db} from "../../firebase";
-import {Alert, Button, Col, Container, Row, Spinner} from "react-bootstrap";
+import {Alert, Col, Container, Row, Spinner} from "react-bootstrap";
 import './Mealplan.css'
 import Meals from "./Meals";
-import {deleteMeal, deleteRecipe} from "../Database/firestore";
-import {useMountedState} from "react-use";
+
 
 const SavedMeals = () => {
 
@@ -20,12 +19,10 @@ const SavedMeals = () => {
         const unsubscribe = db.collection('users').doc(currentUser.uid).collection('meals').onSnapshot(
             (snapshot) => {
                 const data = snapshot.docs.map(doc => {
-                    console.log(doc.id)
                     let documentData = doc.data()
                     documentData.id = doc.id
                     return documentData
                 });
-                console.log(data);
                 setSavedMeals(data);
                 setLoading(false);
             }, (error) => {

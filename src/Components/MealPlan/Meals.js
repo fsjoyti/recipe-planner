@@ -36,7 +36,6 @@ const Meals = ({ mealData , isSavedMealScreen=false, id = null}) => {
         }
     }
 
-
     return (
         <section className="spacing">
             <article>
