@@ -7,6 +7,10 @@
     color: #4527a0;
 }
 
+article ul{
+    margin-bottom: 1em !important;
+}
+
 .muted-text-color{
     color: #7c4dff !important;
 }

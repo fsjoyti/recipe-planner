@@ -21,7 +21,7 @@ const RecipeLists = ({recipes, isavedRecipeScreen = false})=>{
             }
         }
     }
-        return (<div>
+        return (<div id="recipe-list">
             {error && <Alert variant="danger">{error}</Alert>}
             <Row>
                 {recipes.map((recipe, index) => (
