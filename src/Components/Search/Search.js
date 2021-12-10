@@ -5,6 +5,7 @@ import {Button, Col, Form, InputGroup, Row} from "react-bootstrap";
 const Search = (props)=>{
 
     const [searchTerm, setSearchTerm] = useState("");
+    const[formSubmit, setFormSubmit] = useState(false);
 
     const handleInputChange = (e)=>{
         setSearchTerm(e.target.value);
@@ -12,6 +13,7 @@ const Search = (props)=>{
 
     const handleKeyDown = (e)=>{
         if(e.key === 'Enter'){
+            e.preventDefault();
             if(!searchTerm){
                 alert("You need to enter a search query")
             }
