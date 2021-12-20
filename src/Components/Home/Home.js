@@ -15,9 +15,38 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const {currentUser} = useAuth()
     const [recipes, setRecipes] = useState([]);
-    const [query, setQuery] = useState("American Vegan");
+    const [randomRecipes, setRandomRecipes] = useState([]);
+    const [query, setQuery] = useState(null);
     const isMounted = useMountedState();
     const [error, setError] = useState('');
+
+    const getRandomRecipes = useCallback(async ()=>{
+        setLoading(true);
+        try{
+            const response = await  axios.get("https://api.spoonacular.com/recipes/random",{
+                params:{
+                    number: 6,
+                    tags:"vegetarian",
+                    apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY
+                }
+            });
+            const {data} = await response;
+            const {recipes} =  data;
+            if(isMounted()){
+                console.log('Random recipes: ', recipes);
+                setRandomRecipes(recipes);
+            }
+        }catch (error) {
+            if (isMounted()) {
+                setError(error);
+            }
+        }finally {
+            if (isMounted()) {
+                setLoading(false);
+            }
+        }
+
+    }, [isMounted]);
 
     const getRecipes = useCallback(async () => {
         setLoading(true);
@@ -29,7 +58,7 @@ const Home = () => {
                     addRecipeInformation: true,
                     apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY
                 }
-            })
+            });
             const {data} = await response;
             const {results} = data;
             if (isMounted()) {
@@ -46,6 +75,10 @@ const Home = () => {
         }
 
     }, [query, isMounted]);
+
+    useEffect(()=>{
+       getRandomRecipes();
+    },[getRandomRecipes]);
 
     useEffect(() => {
         getRecipes();
@@ -73,7 +106,8 @@ const Home = () => {
                 )}
             </div>
             <Search search={search}/>
-            <RecipeLists recipes={recipes}/>
+            {query === null && <RecipeLists recipes={randomRecipes}/>}
+            {query && <RecipeLists recipes={recipes}/>}
         </div>
     )
 }
